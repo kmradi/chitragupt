@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
+import os
 import sys
 import json
 import subprocess
 from os import path
+
 
 
 def get_pwd():
@@ -88,14 +90,14 @@ def run_this_one(khata,dir_path,serial_no):
 def display_records(khata):
     # subprocess.run('clear',shell=True)
     i = 1
-    print(' { "->" means watched, ")" means not watched }\n')
-    tru = '-> '
-    fls = ' ) '
+    print(' { ">>" means watched, "--" means not watched }\n')
+    tru = '(>>)'
+    fls = '(--)'
     for key in khata:
         if khata.get(key):
-            print(i,tru,key)
+            print(tru,'[',i,']',key)
         else:
-            print(i,fls,key)
+            print(fls,'[',i,']',key)
         i+=1
 
 def statistics(khata):
@@ -111,31 +113,31 @@ def statistics(khata):
         per = int((t/tot)*100)
     else:
     	per = 0
-    print('___________________________________')
-    print('|   TOTAL VIDEOS        | ',tot)
-    print('|_______________________|__________')
-    print('|   VIDEOS WATCHED      | ',t)
-    print('|_______________________|__________')
-    print('|   PERCENTAGE WATCHED  | ',per,'%')
-    print('|_______________________|__________')
+    print('-----------------------------------'.center(term_wid))
+    print('    TOTAL VIDEOS       --> %d'.center(term_wid)%(tot))
+    print('-----------------------------------'.center(term_wid))
+    print('    VIDEOS WATCHED     --> %d'.center(term_wid)%(t))
+    print('-----------------------------------'.center(term_wid))
+    print('    PERCENTAGE WATCHED --> %d '.center(term_wid)%(per))
+    print('-----------------------------------'.center(term_wid))
 
 def print_menu():
     # subprocess.run('clear',shell=True)
-    print('__________________Enter A Choice________________')
-    print('|   |                                           |')
-    print('| 1 | LIST THE VIDEOS                           |')
-    print('|---|-------------------------------------------|')
-    print('| 2 | PLAY the NEXT VIDEO                       |')
-    print('|---|-------------------------------------------|')
-    print('| 3 | PLAY A PARTICULAR VIDEO                   |')
-    print('|---|-------------------------------------------|')
-    print('| 4 | RESET STATUS of all videos TO UNWATCHED   |')
-    print('|---|-------------------------------------------|')
-    print('| 5 | DISPLAY STATISTICS                        |')
-    print('|---|-------------------------------------------|')
-    print('|                                               |')
-    print('|       ------ enter SPACE TO EXIT ------       |')
-    print('|_______________________________________________|\n')
+    print('__________________Enter A Choice________________'.center(term_wid))
+    print('|   |                                           |'.center(term_wid))
+    print('| 1 | LIST THE VIDEOS                           |'.center(term_wid))
+    print('|---|-------------------------------------------|'.center(term_wid))
+    print('| 2 | PLAY the NEXT VIDEO                       |'.center(term_wid))
+    print('|---|-------------------------------------------|'.center(term_wid))
+    print('| 3 | PLAY A PARTICULAR VIDEO                   |'.center(term_wid))
+    print('|---|-------------------------------------------|'.center(term_wid))
+    print('| 4 | RESET STATUS of all videos TO UNWATCHED   |'.center(term_wid))
+    print('|---|-------------------------------------------|'.center(term_wid))
+    print('| 5 | DISPLAY STATISTICS                        |'.center(term_wid))
+    print('|---|-------------------------------------------|'.center(term_wid))
+    print('|                                               |'.center(term_wid))
+    print('|       ------ enter SPACE TO EXIT ------       |'.center(term_wid))
+    print('|_______________________________________________|\n'.center(term_wid))
     choice = str(input('--> '))
     return choice
 
@@ -157,9 +159,9 @@ def first_screen(khata,dir_path):
         elif choice == '3':
             subprocess.run('clear')
             display_records(khata)
-            print('______________________________________________________')
-            print('|  enter the serial number of the file you wanna play |')
-            serial_no = (input('|_____________________________________________________|\n\n--> '))
+            print('______________________________________________________'.center(term_wid))
+            print('|  enter the serial number of the file you wanna play |'.center(term_wid))
+            serial_no = (input('|_____________________________________________________|'.center(term_wid)))
             if int_or_not(serial_no):
             	serial_no = int(serial_no)
             	run_this_one(khata,dir_path,serial_no)
@@ -176,7 +178,7 @@ def first_screen(khata,dir_path):
             subprocess.run('clear')
             print('invalid choice')
 
-
+term_wid = os.get_terminal_size().columns
 subprocess.run('clear')
 dir_path = get_pwd()
 khata = get_list(dir_path)
